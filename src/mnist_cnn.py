@@ -12,6 +12,15 @@ import tensorflow as tf
 
 # Import MNIST data
 from tensorflow.examples.tutorials.mnist import input_data
+from optimizers import PurePythonGradientDescentOptimizer
+from optimizers import QuasiNewton
+from optimizers import ExternalPythonGradientDescentOptimizer
+
+# Uncomment whichever optimizer you want to use
+optim = 'grad'
+#optim = 'quasi'
+#optim = 'ext_grad'
+
 mnist = input_data.read_data_sets("/tmp/data/", one_hot=True)
 
 # Parameters
@@ -97,9 +106,14 @@ pred = conv_net(x, weights, biases, keep_prob)
 # Define loss and optimizer
 cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=pred, labels=y))
 
-if(opt == 'grad'):
-    optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(cost)
-else
+#  modification
+if(optim == 'grad'):
+    optimizer = PurePythonGradientDescentOptimizer(learning_rate=learning_rate).minimize(cost)
+elif(optim == 'ext_grad'):
+    optimizer = ExternalPythonGradientDescentOptimizer(learning_rate=learning_rate).minimize(cost)
+else:
+    optimizer = QuasiNewton(learning_rate=learning_rate).minimize(cost)
+
 
 # Evaluate model
 correct_pred = tf.equal(tf.argmax(pred, 1), tf.argmax(y, 1))
