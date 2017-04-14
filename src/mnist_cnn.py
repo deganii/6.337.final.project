@@ -19,8 +19,9 @@ from optimizers import ExternalPythonGradientDescentOptimizer
 # Uncomment whichever optimizer you want to use
 #optim = 'grad'
 #optim = 'quasi'
-optim = 'ext_grad'
-
+#optim = 'ext_grad'
+# optim = 'native_grad'
+optim = 'Adam_Opt'
 mnist = input_data.read_data_sets("/tmp/data/", one_hot=True)
 
 # Parameters
@@ -111,6 +112,10 @@ if(optim == 'grad'):
     optimizer = PurePythonGradientDescentOptimizer(learning_rate=learning_rate).minimize(cost)
 elif(optim == 'ext_grad'):
     optimizer = ExternalPythonGradientDescentOptimizer(cost, learning_rate=learning_rate).minimize()
+elif(optim == 'native_grad'):
+    optimizer = tf.train.GradientDescentOptimizer(learning_rate).minimize(cost)
+elif(optim == 'Adam_Opt'):
+    optimizer = tf.train.AdamOptimizer(learning_rate= learning_rate).minimize(cost)   
 else:
     optimizer = QuasiNewton().minimize(cost)
 
