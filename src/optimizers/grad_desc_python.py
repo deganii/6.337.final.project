@@ -19,8 +19,6 @@ class PurePythonGradientDescentOptimizer(optimizer.Optimizer):
   """Optimizer that implements the gradient descent algorithm, purely in python
   """
 
-  def _apply_sparse(self, grad, var):
-      pass
 
   def __init__(self, learning_rate, use_locking=False, name="GradientDescent"):
     """Construct a new gradient descent optimizer.
@@ -35,12 +33,15 @@ class PurePythonGradientDescentOptimizer(optimizer.Optimizer):
     self._learning_rate = learning_rate
 
   def _apply_dense(self, grad, var):
+    d = math_ops.cast(self._learning_rate_tensor, var.dtype.base_dtype)
     training_res = training_ops.apply_gradient_descent(
         var,
         math_ops.cast(self._learning_rate_tensor, var.dtype.base_dtype),
         grad,
-        use_locking=self._use_locking).op
-    return training_res
+        use_locking=self._use_locking)
+    training_res_op = training_res.op
+    var = var - self._learning_rate_tensor * grad
+    return var.op
 
   def _resource_apply_dense(self, grad, handle):
     training_res = training_ops.resource_apply_gradient_descent(
@@ -59,6 +60,9 @@ class PurePythonGradientDescentOptimizer(optimizer.Optimizer):
         math_ops.cast(self._learning_rate_tensor, var.dtype.base_dtype),
         grad.indices, grad.dense_shape)
     return var.scatter_sub(delta, use_locking=self._use_locking)
+
+  def _apply_sparse(self, grad, var):
+      pass
 
   def _prepare(self):
     self._learning_rate_tensor = ops.convert_to_tensor(self._learning_rate,

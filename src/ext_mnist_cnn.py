@@ -110,7 +110,7 @@ cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=pred, label
 if(optim == 'grad'):
     optimizer = PurePythonGradientDescentOptimizer(learning_rate=learning_rate).minimize(cost)
 elif(optim == 'ext_grad'):
-    optimizer = ExternalPythonGradientDescentOptimizer(cost, learning_rate=learning_rate).minimize()
+    optimizer = ExternalPythonGradientDescentOptimizer(cost, learning_rate=learning_rate)
 else:
     optimizer = QuasiNewton().minimize(cost)
 
@@ -130,8 +130,13 @@ with tf.Session() as sess:
     while step * batch_size < training_iters:
         batch_x, batch_y = mnist.train.next_batch(batch_size)
         # Run optimization op (backprop)
-        sess.run(optimizer, feed_dict={x: batch_x, y: batch_y,
-                                       keep_prob: dropout})
+        feed_dict = {x: batch_x, y: batch_y,
+                     keep_prob: dropout}
+
+        if (optim == 'ext_grad'):
+            optimizer.minimize(sess, feed_dict)
+        else:
+            sess.run(optimizer, )
         if step % display_step == 0:
             # Calculate batch loss and accuracy
             loss, acc = sess.run([cost, accuracy], feed_dict={x: batch_x,
