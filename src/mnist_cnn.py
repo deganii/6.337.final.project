@@ -12,20 +12,19 @@ import tensorflow as tf
 
 # Import MNIST data
 from tensorflow.examples.tutorials.mnist import input_data
-from optimizers import PurePythonGradientDescentOptimizer
-from optimizers import QuasiNewton
-from optimizers import ExternalPythonGradientDescentOptimizer
+from optimizers import *
 
 # Uncomment whichever optimizer you want to use
 #optim = 'grad'
 #optim = 'quasi'
-#optim = 'ext_grad'
+optim = 'ext_grad'
 # optim = 'native_grad'
-optim = 'Adam_Opt'
+#optim = 'Adam_Opt'
+#optim = 'scipy'
 mnist = input_data.read_data_sets("/tmp/data/", one_hot=True)
 
 # Parameters
-learning_rate = 0.001
+learning_rate = 0.0001
 training_iters = 200000
 batch_size = 128
 display_step = 10
@@ -33,12 +32,14 @@ display_step = 10
 # Network Parameters
 n_input = 784 # MNIST data input (img shape: 28*28)
 n_classes = 10 # MNIST total classes (0-9 digits)
-dropout = 0.75 # Dropout, probability to keep units
+dropout = 1.0 #0.75 # Dropout, probability to keep units
 
 # tf Graph input
-x = tf.placeholder(tf.float32, [None, n_input])
-y = tf.placeholder(tf.float32, [None, n_classes])
-keep_prob = tf.placeholder(tf.float32) #dropout (keep probability)
+x = tf.placeholder(tf.float32, [batch_size, n_input],name='x_placeholder')
+y = tf.placeholder(tf.float32, [batch_size, n_classes],name='y_placeholder')
+x_var = tf.Variable(x, trainable=False, collections=[],name='x_var',dtype=tf.float32)
+y_var = tf.Variable(y, trainable=False, collections=[],name='y_var',dtype=tf.float32)
+keep_prob = tf.placeholder(tf.float32,name='dropout_prob') #dropout (keep probability)
 
 
 # Create some wrappers for simplicity
@@ -111,11 +112,13 @@ cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=pred, label
 if(optim == 'grad'):
     optimizer = PurePythonGradientDescentOptimizer(learning_rate=learning_rate).minimize(cost)
 elif(optim == 'ext_grad'):
-    optimizer = ExternalPythonGradientDescentOptimizer(cost, learning_rate=learning_rate).minimize()
+    optimizer = ExternalPythonGradientDescentOptimizer(cost, learning_rate=learning_rate)
 elif(optim == 'native_grad'):
     optimizer = tf.train.GradientDescentOptimizer(learning_rate).minimize(cost)
 elif(optim == 'Adam_Opt'):
     optimizer = tf.train.AdamOptimizer(learning_rate= learning_rate).minimize(cost)   
+elif(optim == 'scipy'):
+    optimizer = ScipyOptimizerInterface()
 else:
     optimizer = QuasiNewton().minimize(cost)
 
@@ -135,10 +138,19 @@ with tf.Session() as sess:
     while step * batch_size < training_iters:
         batch_x, batch_y = mnist.train.next_batch(batch_size)
         # Run optimization op (backprop)
-        sess.run(optimizer, feed_dict={x: batch_x, y: batch_y,
+        if optim == 'scipy' or optim == 'ext_grad':
+            for i in range(10000):
+                sess.run([x_var.initializer,y_var.initializer] , feed_dict={x: batch_x, y:batch_y, keep_prob: 1.})
+                #sess.run(y_var.initializer)
+                #load the data
+                #sess.run([x_var.initializer,y_var.initializer], feed_dict={x: batch_x, y:batch_y, keep_prob: 1.})
+                optimizer.minimize(sess)
+        else:
+            sess.run(optimizer, feed_dict={x: batch_x, y: batch_y,
                                        keep_prob: dropout})
         if step % display_step == 0:
             # Calculate batch loss and accuracy
+
             loss, acc = sess.run([cost, accuracy], feed_dict={x: batch_x,
                                                               y: batch_y,
                                                               keep_prob: 1.})

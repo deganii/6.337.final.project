@@ -33,15 +33,8 @@ class PurePythonGradientDescentOptimizer(optimizer.Optimizer):
     self._learning_rate = learning_rate
 
   def _apply_dense(self, grad, var):
-    d = math_ops.cast(self._learning_rate_tensor, var.dtype.base_dtype)
-    training_res = training_ops.apply_gradient_descent(
-        var,
-        math_ops.cast(self._learning_rate_tensor, var.dtype.base_dtype),
-        grad,
-        use_locking=self._use_locking)
-    training_res_op = training_res.op
     var = var - self._learning_rate_tensor * grad
-    return var.op
+    return var
 
   def _resource_apply_dense(self, grad, handle):
     training_res = training_ops.resource_apply_gradient_descent(
