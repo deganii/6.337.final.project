@@ -17,14 +17,16 @@ from optimizers import *
 # Uncomment whichever optimizer you want to use
 #optim = 'grad'
 #optim = 'quasi'
-optim = 'ext_grad'
+# optim = 'ext_grad'
 # optim = 'native_grad'
-#optim = 'Adam_Opt'
-#optim = 'scipy'
+# optim = 'Adam_Opt'
+optim = 'scipy'
 mnist = input_data.read_data_sets("/tmp/data/", one_hot=True)
 
 # Parameters
-learning_rate = 0.0001
+grad_learning_rate = 0.0001
+adam_learning_rate = 0.001
+ext_grad_learning_rate = 0.0001
 training_iters = 200000
 batch_size = 128
 display_step = 10
@@ -103,28 +105,29 @@ biases = {
 }
 
 # Construct model
-pred = conv_net(x, weights, biases, keep_prob)
+pred = conv_net(x_var, weights, biases, keep_prob)
 
 # Define loss and optimizer
-cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=pred, labels=y))
+cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=pred, labels=y_var))
 
 #  modification
 if(optim == 'grad'):
-    optimizer = PurePythonGradientDescentOptimizer(learning_rate=learning_rate).minimize(cost)
+    optimizer = PurePythonGradientDescentOptimizer(learning_rate=grad_learning_rate).minimize(cost)
 elif(optim == 'ext_grad'):
-    optimizer = ExternalPythonGradientDescentOptimizer(cost, learning_rate=learning_rate)
+    optimizer = ExternalPythonGradientDescentOptimizer(cost)
+    optimizer.learning_rate = ext_grad_learning_rate
 elif(optim == 'native_grad'):
-    optimizer = tf.train.GradientDescentOptimizer(learning_rate).minimize(cost)
+    optimizer = tf.train.GradientDescentOptimizer(grad_learning_rate).minimize(cost)
 elif(optim == 'Adam_Opt'):
-    optimizer = tf.train.AdamOptimizer(learning_rate= learning_rate).minimize(cost)   
+    optimizer = tf.train.AdamOptimizer(learning_rate= adam_learning_rate).minimize(cost)
 elif(optim == 'scipy'):
-    optimizer = ScipyOptimizerInterface()
+    optimizer = ScipyOptimizerInterface(cost)
 else:
     optimizer = QuasiNewton().minimize(cost)
 
 
 # Evaluate model
-correct_pred = tf.equal(tf.argmax(pred, 1), tf.argmax(y, 1))
+correct_pred = tf.equal(tf.argmax(pred, 1), tf.argmax(y_var, 1))
 accuracy = tf.reduce_mean(tf.cast(correct_pred, tf.float32))
 
 # Initializing the variables
@@ -133,18 +136,20 @@ init = tf.global_variables_initializer()
 # Launch the graph
 with tf.Session() as sess:
     sess.run(init)
+
     step = 1
     # Keep training until reach max iterations
     while step * batch_size < training_iters:
         batch_x, batch_y = mnist.train.next_batch(batch_size)
+        sess.run([x_var.initializer, y_var.initializer], feed_dict={x: batch_x, y: batch_y, keep_prob: 1.})
         # Run optimization op (backprop)
         if optim == 'scipy' or optim == 'ext_grad':
-            for i in range(10):
-                sess.run([x_var.initializer,y_var.initializer] , feed_dict={x: batch_x, y:batch_y, keep_prob: 1.})
+            #for i in range(10):
+
                 #sess.run(y_var.initializer)
                 #load the data
                 #sess.run([x_var.initializer,y_var.initializer], feed_dict={x: batch_x, y:batch_y, keep_prob: 1.})
-                optimizer.minimize(sess,  feed_dict={x: batch_x, y:batch_y, keep_prob: 1.})
+            optimizer.minimize(sess,  feed_dict={x: batch_x, y:batch_y, keep_prob: 1.})
         else:
             sess.run(optimizer, feed_dict={x: batch_x, y: batch_y,
                                        keep_prob: dropout})
