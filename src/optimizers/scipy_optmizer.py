@@ -1,10 +1,17 @@
 
 from tensorflow.python.platform import tf_logging as logging
 from tensorflow.contrib.opt import ExternalOptimizerInterface
+import scipy.optimize
 
 
 class ScipyOptimizerInterface(ExternalOptimizerInterface):
-  _DEFAULT_METHOD = 'L-BFGS-B'
+  #_DEFAULT_METHOD = 'L-BFGS-B'
+  #_DEFAULT_METHOD = 'BFGS'
+
+  _DEFAULT_METHOD = 'CG' # conjugate gradient
+  #_DEFAULT_METHOD = 'Newton-CG'
+  #_DEFAULT_METHOD = 'TNC' #  truncated Newton
+  #_DEFAULT_METHOD = 'COBYLA' # Constrained Optimization BY Linear Approximation
 
   def _minimize(self, initial_val, loss_grad_func, equality_funcs,
                 equality_grad_funcs, inequality_funcs, inequality_grad_funcs,
@@ -35,7 +42,7 @@ class ScipyOptimizerInterface(ExternalOptimizerInterface):
       # message.
       del minimize_kwargs['callback']
 
-    import scipy.optimize  # pylint: disable=g-import-not-at-top
+      # pylint: disable=g-import-not-at-top
     result = scipy.optimize.minimize(*minimize_args, **minimize_kwargs)
     logging.info('Optimization terminated with:\n'
                  '  Message: %s\n'
