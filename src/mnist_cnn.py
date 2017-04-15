@@ -139,12 +139,12 @@ with tf.Session() as sess:
         batch_x, batch_y = mnist.train.next_batch(batch_size)
         # Run optimization op (backprop)
         if optim == 'scipy' or optim == 'ext_grad':
-            for i in range(10000):
+            for i in range(10):
                 sess.run([x_var.initializer,y_var.initializer] , feed_dict={x: batch_x, y:batch_y, keep_prob: 1.})
                 #sess.run(y_var.initializer)
                 #load the data
                 #sess.run([x_var.initializer,y_var.initializer], feed_dict={x: batch_x, y:batch_y, keep_prob: 1.})
-                optimizer.minimize(sess)
+                optimizer.minimize(sess,  feed_dict={x: batch_x, y:batch_y, keep_prob: 1.})
         else:
             sess.run(optimizer, feed_dict={x: batch_x, y: batch_y,
                                        keep_prob: dropout})
