@@ -85,22 +85,25 @@ def conv_net(x, weights, biases, dropout):
     out = tf.add(tf.matmul(fc1, weights['out']), biases['out'])
     return out
 
+conv_layer1_depth = 16
+conv_layer2_depth = 32
+fc1_depth = 24
 # Store layers weight & bias
 weights = {
     # 5x5 conv, 1 input, 32 outputs
-    'wc1': tf.Variable(tf.random_normal([5, 5, 1, 32])),
+    'wc1': tf.Variable(tf.random_normal([5, 5, 1, conv_layer1_depth])),
     # 5x5 conv, 32 inputs, 64 outputs
-    'wc2': tf.Variable(tf.random_normal([5, 5, 32, 64])),
+    'wc2': tf.Variable(tf.random_normal([5, 5, conv_layer1_depth, conv_layer2_depth])),
     # fully connected, 7*7*64 inputs, 1024 outputs
-    'wd1': tf.Variable(tf.random_normal([7*7*64, 1024])),
+    'wd1': tf.Variable(tf.random_normal([7*7*conv_layer2_depth, fc1_depth])),
     # 1024 inputs, 10 outputs (class prediction)
-    'out': tf.Variable(tf.random_normal([1024, n_classes]))
+    'out': tf.Variable(tf.random_normal([fc1_depth, n_classes]))
 }
 
 biases = {
-    'bc1': tf.Variable(tf.random_normal([32])),
-    'bc2': tf.Variable(tf.random_normal([64])),
-    'bd1': tf.Variable(tf.random_normal([1024])),
+    'bc1': tf.Variable(tf.random_normal([conv_layer1_depth])),
+    'bc2': tf.Variable(tf.random_normal([conv_layer2_depth])),
+    'bd1': tf.Variable(tf.random_normal([fc1_depth])),
     'out': tf.Variable(tf.random_normal([n_classes]))
 }
 
