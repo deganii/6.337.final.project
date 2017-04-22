@@ -84,8 +84,9 @@ with tf.Session() as sess:
                 c = sess.run( cost, feed_dict={x: batch_xs,y: batch_ys})
             # Compute average loss
             avg_cost += c / total_batch
-            print("Epoch:", '%04d' % (epoch + 1), "cost=", "{:.9f}".format(avg_cost))
-            print("Train Accuracy:", accuracy.eval({x: batch_xs, y: batch_ys}))
+            if(optim == 'ext_bfgs'):
+                print("Epoch:", '%04d' % (epoch + 1), "cost=", "{:.9f}".format(avg_cost))
+                print("Train Accuracy:", accuracy.eval({x: batch_xs, y: batch_ys}))
         # Display logs per epoch step
         if (epoch+1) % display_step == 0:
             print("Epoch:", '%04d' % (epoch+1), "cost=", "{:.9f}".format(avg_cost))
