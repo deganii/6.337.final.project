@@ -17,7 +17,8 @@ from optimizers import *
 # Uncomment whichever optimizer you want to use
 #optim = 'grad'
 #optim = 'quasi'
-optim = 'ext_grad'
+#optim = 'ext_grad'
+optim = 'ext_bfgs'
 # optim = 'native_grad'
 # optim = 'adam'
 # optim = 'scipy'
@@ -114,8 +115,9 @@ pred = conv_net(x_var, weights, biases, keep_prob)
 cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=pred, labels=y_var))
 
 #  modification
-if(optim == 'grad'):
-    optimizer = PurePythonGradientDescentOptimizer(learning_rate=grad_learning_rate).minimize(cost)
+if(optim == 'ext_bfgs'):
+    optimizer = ExternalBFGSOptimizer(cost)
+    optimizer.initialized = False
 elif(optim == 'ext_grad'):
     optimizer = ExternalPythonGradientDescentOptimizer(cost)
     optimizer.learning_rate = ext_grad_learning_rate

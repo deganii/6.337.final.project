@@ -25,8 +25,8 @@ display_step = 1
 
 
 #optim = 'ext_grad'
-optim = 'scipy'
-
+#optim = 'scipy'
+optim = 'ext_bfgs'
 # tf Graph Input
 x = tf.placeholder(tf.float32, [batch_size, 784]) # mnist data image of shape 28*28=784
 y = tf.placeholder(tf.float32, [batch_size, 10]) # 0-9 digits recognition => 10 classes
@@ -50,7 +50,9 @@ if(optim == 'ext_grad'):
     optimizer.learning_rate = ext_grad_learning_rate
 elif (optim == 'scipy'):
     optimizer = ScipyOptimizerInterface(cost)
-
+elif(optim == 'ext_bfgs'):
+    optimizer = ExternalBFGSOptimizer(cost)
+    optimizer.initialized = False
 # Test model
 correct_prediction = tf.equal(tf.argmax(pred, 1), tf.argmax(y, 1))
 # Calculate accuracy
@@ -77,11 +79,13 @@ with tf.Session() as sess:
 
 
             # Run optimization op (backprop) and cost op (to get loss value)
-            if optim == 'scipy' or optim == 'ext_grad':
+            if optim == 'scipy' or optim == 'ext_grad' or optim == 'ext_bfgs':
                 optimizer.minimize(sess, feed_dict={x: batch_xs, y: batch_ys})
                 c = sess.run( cost, feed_dict={x: batch_xs,y: batch_ys})
             # Compute average loss
             avg_cost += c / total_batch
+            print("Epoch:", '%04d' % (epoch + 1), "cost=", "{:.9f}".format(avg_cost))
+            print("Train Accuracy:", accuracy.eval({x: batch_xs, y: batch_ys}))
         # Display logs per epoch step
         if (epoch+1) % display_step == 0:
             print("Epoch:", '%04d' % (epoch+1), "cost=", "{:.9f}".format(avg_cost))

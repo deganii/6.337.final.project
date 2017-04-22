@@ -1,4 +1,4 @@
 from ext_grad_desc_python import ExternalPythonGradientDescentOptimizer
-from grad_desc_python import PurePythonGradientDescentOptimizer
-from quasi_newton import QuasiNewton
 from scipy_optmizer import  ScipyOptimizerInterface
+from split_ext_optimizer import SplitExternalOptimizerInterface
+from ext_bfgs import ExternalBFGSOptimizer
