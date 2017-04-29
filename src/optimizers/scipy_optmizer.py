@@ -11,8 +11,8 @@ class ScipyOptimizerInterface(ExternalOptimizerInterface):
   #_DEFAULT_METHOD = 'BFGS'
   #_DEFAULT_METHOD = 'trust-ncg'
   #_DEFAULT_METHOD = 'dogleg'
-  _DEFAULT_METHOD = 'CG' # conjugate gradient
-  # _DEFAULT_METHOD = 'Newton-CG'
+  #_DEFAULT_METHOD = 'CG' # conjugate gradient
+  _DEFAULT_METHOD = 'Newton-CG'
   #_DEFAULT_METHOD = 'TNC' #  truncated Newton
   #_DEFAULT_METHOD = 'COBYLA' # Constrained Optimization BY Linear Approximation
 
