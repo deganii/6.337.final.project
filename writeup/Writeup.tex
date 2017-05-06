@@ -24,73 +24,41 @@ eal@eecs. berkeley.edu\\
 \thispagestyle{empty}
 
 \begin{abstract}
-   This is a simple sample of a document created using \LaTeX
-   (specifically pdflatex)
-   that includes a figure from the Vergil visual editor for Ptolemy II
-   that was created by printing to the Acrobat Distiller to get a PDF file.
-   It also illustrates a simple two-column conference paper style,
-   and use of bibtex to handle bibligraphies.
+   Abstract for algorithms used and performance on the bench mark problem.
 \end{abstract}
 
-\begin{figure}[!b]
-  \begin{center}
-    \includegraphics[width=3.5in]{figure.pdf}
-  \end{center}
+\section{Introduction}
 
-  \caption{\small Figure caption. To get a figure to span two
-      columns, use the environment figure* rather than figure.}
-  \label{fig-label}
-\end{figure}
+Machine learning and optimization has found home in some of the most important machine learning(ML) applications. The fields of machine learning and mathematical programming are becoming increasingly intertwined. Optimization problems lie at the heart of most machine learning approaches. Many optimization algorithms that  are applied in machine learning problems converge at different rates. Manu of the learning algorithms also have different memory footprint and different computational complexity. Studying how different optimization algorithms work when applied in ML applications is therefore an interesting field of research.
 
-\section{Using \LaTeX with PDF Figures}
+The work here explores different optimization schemes that are used in training weight matrices in a Neural net that uses logistic regression. The learning problem in neural nets is formulated in terms of the minimization of a loss function. We can combine the weights and the biases in a neural net in the loss function weight vector w. The loss function is then f(w) with w* as its minima. The learning problem in neural nets is basically searching for a weight vector w* such that the value of the loss function f(w) is minimum at w*. This means that if we evaluate the value of the gradient of f(w) at w*, the gradient is zero.
 
-This is a sample document for use with pdflatex, which is
-a program that is included with the Miktex distribution
-that directly produces PDF files from \LaTeX sources.
-To run \LaTeX on this file, you need the following files:
-\begin{enumerate}
-\item templatePDF.tex (this file)
-\item figure.pdf (the figure file)
-\item simpleConference.sty (style file)
-\item refs.bib (bibiliography file)
-\end{enumerate}
-\noindent
-To create a PDF file, execute the following commands:
-\begin{enumerate}
-\item pdflatex templatePDF
-\item bibtex templatePDF
-\item pdflatex templatePDF
-\item pdflatex templatePDF
-\end{enumerate}
-\noindent
-Yes (strangely) it is necessary to run pdflatex three times.
-The result will be a PDF file (plus several other files that \LaTeX
-produces).  You will need a mechanism, of course, for executing
-commands on the command line. If you are using Windows, I recommend
-installing Cygwin and using its bash shell.
+The loss function in general is a multi-dimensional nonlinear function. In order to minimize the loss function, typically iterative optimization methods are used. The iterative algorithm calculates the loss at each iteration, the change of loss between two steps is called loss decrement. The training algorithm stops when the specified criteria is met. There are multiple training algorithms that are available to train a neural net. We consider three  different algorithms to train a neural net; Gradient descent, Quasi Newton (BFGS),Adam-Optimizer.
 
-\section{How to Include Vergil Diagrams as Figures}
+The algorithms mentioned above are applied on a simple problem first to make sure that they are functioning properly. They are then used on a benchmark problem which is the classification of handwritten digits in a MNIST data set using a neural net that uses logistic regression. The next section describes each of the algorithms in detail along with the pseudocode and their performance characteristics. 
 
-Suppose you wish to include a figure, like that in figure \ref{fig-label}.
-The simplest mechanism is to install Adobe Acrobat, which includes
-a ``printer'' called ``Acrobat Distiller.'' Printing to this printer
-creates a PDF file, which can be included in a document as shown
-here.  To include Ptolemy II models \cite{PtolemyVol1:04},
-just print to the distiller from within Vergil and reference
-the PDF file in your \LaTeX document.
+\section{Algorithms}
 
-There is a bit more work to do, however.
-The file that is produced by the distiller represents
-a complete page, not the individual figure.
-You can open it in using Acrobat (version 5.0 or later),
-and select Document $\rightarrow$ Crop Pages from the menu.
-In the resulting dialog, check ``Remove White Margins.''
-Save the modified PDF file in a file and then reference
-it in the \LaTeX file as shown in this example.
 
-An alternative is to generate EPS (encapsulated postscript),
-but the process is much more complex and fragile.
-I recommend using pdflatex and Adobe Acrobat.
+\subsection{Gradient Descent}
+\subsubsection{Pseudocode}
+\subsubsection{Performance characteristics}
+
+
+\subsection{Adam-Optimizer}
+\subsubsection{Pseudocode}
+\subsubsection{Performance characteristics}
+
+\subsection{BFGS}
+\subsubsection{Pseudocode}
+\subsubsection{Performance characteristics}
+
+
+\subsection{Benchmark Problem}
+
+\subsection{Numerical results and discussion}
+
+
 
 \bibliographystyle{abbrv}
 \bibliography{refs}
