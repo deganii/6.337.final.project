@@ -26,7 +26,9 @@ display_step = 1
 
 #optim = 'ext_grad'
 #optim = 'scipy'
-optim = 'ext_bfgs'
+#optim = 'ext_bfgs'
+optim = 'ext_newton'
+
 # tf Graph Input
 x = tf.placeholder(tf.float32, [batch_size, 784]) # mnist data image of shape 28*28=784
 y = tf.placeholder(tf.float32, [batch_size, 10]) # 0-9 digits recognition => 10 classes
@@ -40,7 +42,8 @@ W = tf.Variable(tf.zeros([784, 10]))
 b = tf.Variable(tf.zeros([10]))
 
 # Construct model
-pred = tf.nn.softmax(tf.matmul(x_var, W) + b) # Softmax
+error = tf.matmul(x_var, W) + b
+pred = tf.nn.softmax(error) # Softmax
 
 # Minimize error using cross entropy
 cost = tf.reduce_mean(-tf.reduce_sum(y_var*tf.log(pred), reduction_indices=1))
@@ -53,6 +56,9 @@ elif (optim == 'scipy'):
 elif(optim == 'ext_bfgs'):
     optimizer = ExternalBFGSOptimizer(cost)
     optimizer.initialized = False
+elif(optim == 'ext_newton'):
+    optimizer = ExternalNewtonOptimizer(error, W)
+
 # Test model
 correct_prediction = tf.equal(tf.argmax(pred, 1), tf.argmax(y, 1))
 # Calculate accuracy
@@ -77,20 +83,44 @@ with tf.Session() as sess:
             sess.run([x_var.initializer, y_var.initializer], feed_dict={x: batch_xs,
                                                                         y: batch_ys})
 
-
             # Run optimization op (backprop) and cost op (to get loss value)
-            if optim == 'scipy' or optim == 'ext_grad' or optim == 'ext_bfgs':
+            if optim == 'scipy' or optim == 'ext_grad' or optim == 'ext_bfgs' or optim == 'ext_newton':
                 optimizer.minimize(sess, feed_dict={x: batch_xs, y: batch_ys})
                 c = sess.run( cost, feed_dict={x: batch_xs,y: batch_ys})
+
+                print("Epoch:", '%04d' % (epoch + 1), "cost=", "{:.9f}".format(avg_cost))
+                print("Train Accuracy:", accuracy.eval({x: batch_xs, y: batch_ys}))
+
+                sess.run([x_var.initializer, y_var.initializer],
+                         feed_dict={x: mnist.test.images[:batch_size], y: mnist.test.labels[:batch_size]})
+
+                print("Test Accuracy:",
+                      accuracy.eval({x: mnist.test.images[:batch_size], y: mnist.test.labels[:batch_size]}))
+
+
             # Compute average loss
             avg_cost += c / total_batch
             if(optim == 'ext_bfgs'):
                 print("Epoch:", '%04d' % (epoch + 1), "cost=", "{:.9f}".format(avg_cost))
                 print("Train Accuracy:", accuracy.eval({x: batch_xs, y: batch_ys}))
+
+                sess.run([x_var.initializer, y_var.initializer],
+                         feed_dict={x: mnist.test.images[:batch_size], y: mnist.test.labels[:batch_size]})
+
+                print("Test Accuracy:",
+                      accuracy.eval({x: mnist.test.images[:batch_size], y: mnist.test.labels[:batch_size]}))
+
+
         # Display logs per epoch step
         if (epoch+1) % display_step == 0:
             print("Epoch:", '%04d' % (epoch+1), "cost=", "{:.9f}".format(avg_cost))
             print("Train Accuracy:", accuracy.eval({x: batch_xs, y: batch_ys}))
+
+            sess.run([x_var.initializer, y_var.initializer],
+                     feed_dict={x: mnist.test.images[:batch_size], y: mnist.test.labels[:batch_size]})
+
+            print("Test Accuracy:",
+                  accuracy.eval({x: mnist.test.images[:batch_size], y: mnist.test.labels[:batch_size]}))
 
     print("Optimization Finished!")
 

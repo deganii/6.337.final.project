@@ -2,3 +2,6 @@ from ext_grad_desc_python import ExternalPythonGradientDescentOptimizer
 from scipy_optmizer import  ScipyOptimizerInterface
 from split_ext_optimizer import SplitExternalOptimizerInterface
 from ext_bfgs import ExternalBFGSOptimizer
+from jacobian_ext_optimizer import JacobianExternalOptimizerInterface
+from ext_newton_python import ExternalNewtonOptimizer
+from ext_downhill_simplex import ExternalDownhillSimplexOptimizer
