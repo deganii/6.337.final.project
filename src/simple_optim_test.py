@@ -1,6 +1,8 @@
 
 import tensorflow as tf
 from optimizers import *
+import time
+
 
 # Set model weights
 W = tf.Variable([[1.,2.,3.],[2.,-1.,0.],[3.,1.,-1.]],trainable=False,dtype=tf.float32, name='jacobian')
@@ -69,3 +71,4 @@ with tf.Session() as session:
             finalX = session.run(x)
             print(finalX)
             #print(errorVal)
+

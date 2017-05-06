@@ -7,17 +7,12 @@
 
 \begin{document}
 
-\title{\LaTeX\ Guidelines for Simple, Two-Column Papers}
+\title{A comparison of iterative optimizers applied to the MNIST dataset}
 
-\author{Edward A. Lee\\
+\author{Suhrid Deshmukh, Ismail Degani\\
 \\
-6.337 Project Proposal\\
-April, 19th 2017\\
-\\
-University of California at Berkeley\\
-Berkeley, CA, 94720, USA\\
-\\
-eal@eecs. berkeley.edu\\
+6.337 Final Project\\
+May, 6th 2017\\
 }
 
 \maketitle
@@ -69,7 +64,47 @@ produces).  You will need a mechanism, of course, for executing
 commands on the command line. If you are using Windows, I recommend
 installing Cygwin and using its bash shell.
 
-\section{How to Include Vergil Diagrams as Figures}
+\section{Adam Optimizer}
+
+
+The Adam Optimizer [1] is a member of a class of "adaptive" gradient descent optimizers which adjust their learning rate $\alpha$ at each iteration in order to converge more efficiently. This adaptive behavior significantly reduces the impact of a badly chosen initial learning rate $\alpha$, which can be difficult to determine. Adam is specifically optimized for sparse datasets as are many similar algorithms in this class. This makes it an excellent candidate for MNIST data which is monochrome and therefore predominantly zero-value. 
+
+The Adam algorithm stores a history of previous gradients $v_t$ and squared gradients $m_t$, also known as first and second moments. In order to compute the current gradient, Adam applies exponentially decaying factors $ \beta_1$ and $\beta_2$ to the first and second moments. It finally calculates bias-adjusted values of these moments $\hat{v}_t , \hat{m}_t $ , and applies a smoothing term $\epsilon$ which avoids division by zero. Pseudocode is given below:
+
+\subsection{Algorithm 1: Adam optimization step}
+
+ while  $ f ( \theta_t ) > \tau $ 
+
+	$ t = t + 1 $
+
+	$g_t = \nabla_{\theta} f_t (\theta_{t-1})$
+
+	$ m_t = \beta \cdot m_{t-1} + (1-\beta_1) \cdot g_t  $
+
+	$ v_t = \beta_2 \cdot v_{t-1} + (1+\beta_2) \cdot g_t^2  $
+
+	$\hat{m}_t =\frac{m_t}{1-\beta_1^t}  $
+
+	$\hat{v}_t = \frac{v_t}{1-\beta_2^t}  $
+
+	
+	$ \theta_t = \theta_{t-1} - \alpha \cdot  \frac{{\hat{m}_t}}{\sqrt{\hat{vt}} + \epsilon} $
+
+
+end while
+
+
+
+\section{Performance Characteristics}
+
+The following section compares gradient descent, adam, and BFGS optmizers on a linear least squares Ax = b optimization, and a logistic regression to solve the MNIST problem.
+
+\subsection{Gradient Descent}
+
+
+    \includegraphics[width=3.5in]{plot1-GradDescent.png}
+
+
 
 Suppose you wish to include a figure, like that in figure \ref{fig-label}.
 The simplest mechanism is to install Adobe Acrobat, which includes
