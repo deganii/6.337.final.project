@@ -2,7 +2,7 @@
 import tensorflow as tf
 from optimizers import *
 import time
-
+import numpy as np
 
 # Set model weights
 W = tf.Variable([[1.,2.,3.],[2.,-1.,0.],[3.,1.,-1.]],trainable=False,dtype=tf.float32, name='jacobian')
@@ -16,18 +16,16 @@ error = (tf.matmul(x, W) - b)
 loss = tf.reduce_mean(tf.reduce_sum(tf.square(error)))
 
 # Gradient Descent
-#optim = 'ext_grad'
+optim = 'ext_grad'
 # BFGS
 #optim = 'ext_bfgs'
 #optim = 'ext_newton'
 
 #optim = 'ext_d_simplex'
-
+#optim = 'adam'
 learning_rate = 0.001
 ext_grad_learning_rate = 0.01
 adam_learning_rate = 0.001
-optim = 'adam'
-
 
 if(optim == 'ext_grad'):
     optimizer = ExternalPythonGradientDescentOptimizer(loss)
@@ -47,28 +45,58 @@ elif(optim == 'adam'):
 init = tf.global_variables_initializer()
 trainingIter = 10000
 i = 0
+idx = 0
+step_dt =[0]
+train_loss_dt = []
+
+test_loss = 0.0
+start_time = time.time()
+time_dt = [0]
+
+
 with tf.Session() as session:
     session.run(init)
 
     if (optim == 'adam'):
+        train_loss_dt.append(session.run(loss))
         while(i < trainingIter):
             session.run(optimizer)
             i = i+1
-            if (trainingIter % 1000 == 0):
-                finalX = session.run(x)
-                print(finalX)
+            if (i % 1 == 0):
+                train_loss_dt.append(session.run(loss))
+                step_dt.append(i)
+                elapsed_time = time.time() - start_time
+                time_dt.append(elapsed_time)
+                #finalX = session.run(x)
+                #print(finalX)
 
     else:
         #for  i in range(10000):
         #    session.run(optimizer)
         #feed_dict = {input: np.}
-        errorVal = session.run(error)
-        print(errorVal)
-        errorVal = session.run(W)
+        train_loss_dt.append(session.run(loss))
         for i in range(1000):
             optimizer.minimize(session)
+            train_loss_dt.append(session.run(loss))
+            step_dt.append(i)
+            elapsed_time = time.time() - start_time
+            time_dt.append(elapsed_time)
+
             #errorVal = session.run(error)
-            finalX = session.run(x)
-            print(finalX)
+            #finalX = session.run(x)
+            #print(finalX)
             #print(errorVal)
+
+np.savez('performance_data/toy/' + optim, step_dt=step_dt, train_loss_dt=train_loss_dt, time_dt=time_dt)
+
+
+# plot and show
+#from plotting import PerformancePlotter
+#PerformancePlotter.plot_loss(optim, step_dt, train_loss_dt, test_loss )
+
+
+# show time per iteration
+# time to convergence
+# steps to convergence
+# training / test accuracy for each method
 
