@@ -125,7 +125,13 @@ Some discussion on logistic regression maxes out at 94\% accuracy. Neural nets i
 
 \section{Performance Characteristics}
 
-Introduce the performance characteristics you are going to measure. If you have theoretical estimates on these performance characteristics, derive them here.
+\textbf{Introduce the performance characteristics you are going to measure. If you have theoretical estimates on these performance characteristics, derive them here.}
+
+Some of the performance characteristics that were looked at were the number of flops per iteration of the algorithm and also the time taken in seconds for the algorithm to run until convergence. Comparing the number of flops, theoretical Vs. practical did not make much sense because it was very hardware dependent and some of the packaged implementations were far more optimized that the basic implementations of the otherwise more optimal algorithms. Therefore the trends in the theoretical flops were compared with the trends in time taken for the algorithms to converge. 
+
+The total number of flops per iteration in Gradient descent algorithm for a 2D objective function is derived as follows. The most expensive step in the gradient descent algorithm is the updating step of the solution which is given by 
+
+
 $mn^2$ flops for Ax = b for MNIST problem 784X10 matrix. 
 Iterative algorithms do $n^2$ per iteration
 

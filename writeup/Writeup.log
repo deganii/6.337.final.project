@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.10.3)  6 MAY 2017 17:28
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.10.3)  12 MAY 2017 18:41
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -335,7 +335,7 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 23.
 
-<plot1-GradDescent.png, id=4, 512.91624pt x 385.44pt>
+<plot1-GradDescent.png, id=88, 512.91624pt x 385.44pt>
 File: plot1-GradDescent.png Graphic file (type png)
 
 <use plot1-GradDescent.png>
@@ -377,30 +377,34 @@ Underfull \hbox (badness 1184) in paragraph at lines 106--107
  []
 
 Missing character: There is no  in font ptmr7t!
+
+Underfull \hbox (badness 2050) in paragraph at lines 130--131
+[]\OT1/ptm/m/n/10 Some of the per-for-mance char-ac-ter-is-tics that were
+ []
+
 Missing character: There is no š in font ptmr7t!
+
+Underfull \vbox (badness 1406) has occurred while \output is active []
+
+ [3]
 No file Writeup.bbl.
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 170.
-[3]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 170.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 176.
+[4
+
+]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 176.
  (./Writeup.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 170.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 170.
-
-
-Package rerunfilecheck Warning: File `Writeup.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `Writeup.out':
-(rerunfilecheck)             Before: D41D8CD98F00B204E9800998ECF8427E;0
-(rerunfilecheck)             After:  24B57B1B27DCF96557B9E900DEB1BF17;1685.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 170.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 176.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 176.
+Package rerunfilecheck Info: File `Writeup.out' has not changed.
+(rerunfilecheck)             Checksum: 24B57B1B27DCF96557B9E900DEB1BF17;1685.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 176.
  ) 
 Here is how much of TeX's memory you used:
- 6346 strings out of 493014
- 92024 string characters out of 6133351
- 186481 words of memory out of 5000000
- 9757 multiletter control sequences out of 15000+600000
+ 6369 strings out of 493014
+ 92383 string characters out of 6133351
+ 186585 words of memory out of 5000000
+ 9779 multiletter control sequences out of 15000+600000
  22528 words of font info for 56 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  29i,7n,28p,768b,567s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -416,10 +420,10 @@ xmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2016/texm
 f-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2016/texmf-dist/fon
 ts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/u
 rw/times/utmri8a.pfb>
-Output written on Writeup.pdf (3 pages, 151981 bytes).
+Output written on Writeup.pdf (4 pages, 154432 bytes).
 PDF statistics:
- 134 PDF objects out of 1000 (max. 8388607)
- 114 compressed objects within 2 object streams
- 56 named destinations out of 1000 (max. 500000)
- 6 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 202 PDF objects out of 1000 (max. 8388607)
+ 181 compressed objects within 2 object streams
+ 57 named destinations out of 1000 (max. 500000)
+ 174 words of extra memory for PDF output out of 10000 (max. 10000000)
 
