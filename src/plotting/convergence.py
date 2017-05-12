@@ -79,7 +79,7 @@ class PerformancePlotter(object):
         plt.show()
 
 
- @classmethod
+    @classmethod
     def plot_accuracy_multi(cls, dataset):
         # load from file
         fig = plt.figure()

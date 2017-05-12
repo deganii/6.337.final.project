@@ -110,7 +110,7 @@ with tf.Session() as sess:
                 train_loss_dt.append(c)
                 #print("Epoch:", '%04d' % (epoch + 1), "cost=", "{:.9f}".format(avg_cost))
                 #print("Test Accuracy:", test_acc)
-            else if (optim == 'adam'):
+            elif (optim == 'adam'):
                 sess.run(optimizer)
                 train_loss_dt.append(sess.run(cost, feed_dict={x: batch_xs,y: batch_ys}))
 
