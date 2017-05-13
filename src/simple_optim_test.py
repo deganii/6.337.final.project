@@ -24,7 +24,7 @@ loss = tf.reduce_mean(tf.reduce_sum(tf.square(error)))
 #optim = 'ext_d_simplex'
 optim = 'adam'
 learning_rate = 0.001
-ext_grad_learning_rate = 0.01
+ext_grad_learning_rate = 0.001
 adam_learning_rate = 0.001
 
 if(optim == 'ext_grad'):
@@ -43,7 +43,7 @@ elif(optim == 'adam'):
     optimizer = tf.train.AdamOptimizer(learning_rate= adam_learning_rate).minimize(loss)
 
 init = tf.global_variables_initializer()
-trainingIter = 10000
+trainingIter = 20000
 i = 0
 idx = 0
 step_dt =[0]
@@ -78,7 +78,7 @@ with tf.Session() as session:
         #    session.run(optimizer)
         #feed_dict = {input: np.}
 
-        for i in range(1000):
+        for i in range(trainingIter):
             optimizer.minimize(session)
             loss_res = session.run(loss)
             train_loss_dt.append(loss_res)

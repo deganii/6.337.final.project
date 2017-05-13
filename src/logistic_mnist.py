@@ -18,12 +18,16 @@ from optimizers import *
 from tensorflow.examples.tutorials.mnist import input_data
 mnist = input_data.read_data_sets("/tmp/data/", one_hot=True)
 
-ext_grad_learning_rate = 0.01
-adam_learning_rate = 0.001
+# old values
+#ext_grad_learning_rate = 0.01
+#adam_learning_rate = 0.001
 
+ext_grad_learning_rate = 0.005
+adam_learning_rate = 0.005
 
 # Parameters
-learning_rate = 0.01
+#learning_rate = 0.01
+learning_rate = 0.005
 training_epochs = 25
 batch_size = 100
 display_step = 1
@@ -143,7 +147,7 @@ with tf.Session() as sess:
                          feed_dict={x: mnist.test.images[:batch_size], y: mnist.test.labels[:batch_size]})
 
                 test_acc =accuracy.eval({x: mnist.test.images[:batch_size], y: mnist.test.labels[:batch_size]})
-                test_accuracy_dt.append(train_acc)
+                test_accuracy_dt.append(test_acc)
                 print("Test Accuracy:", test_acc)
         # Display logs per epoch step
         if (epoch+1) % display_step == 0:
@@ -164,7 +168,14 @@ with tf.Session() as sess:
     sess.run([x_var.initializer, y_var.initializer], feed_dict={x: mnist.test.images[:batch_size], y: mnist.test.labels[:batch_size]})
 
     print("Test Accuracy:", accuracy.eval({x: mnist.test.images[:batch_size], y: mnist.test.labels[:batch_size]}))
-    stacked = np.stack(step_dt, train_loss_dt, time_dt, test_accuracy_dt, train_accuracy_dt)
-    np.savetxt('performance_data/mnist/{0}.txt'.format(optim),np.transpose(stacked), header=header, fmt='%10.15f')
     np.savez('performance_data/mnist/' + optim, step_dt=step_dt, train_loss_dt=train_loss_dt, time_dt=time_dt, test_accuracy_dt=test_accuracy_dt, train_accuracy_dt=train_accuracy_dt)
+
+    # make everything the same size
+    for series in [train_loss_dt, time_dt, test_accuracy_dt, train_accuracy_dt]:
+        pad = len(series) < len(step_dt)
+        if pad > 0:
+            np.pad(series, pad, 'constant')
+
+    #stacked = np.stack((step_dt, train_loss_dt, time_dt, test_accuracy_dt, train_accuracy_dt))
+    #np.savetxt('performance_data/mnist/{0}.txt'.format(optim),np.transpose(stacked), header=header, fmt='%10.15f')
 

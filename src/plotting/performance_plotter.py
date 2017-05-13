@@ -4,6 +4,11 @@ import numpy as np
 import os.path
 import time
 
+pretty_print = {
+    'ext_grad' : 'Gradient Descent',
+    'adam': 'Adam Optimizer',
+    'ext_bfgs': 'BFGS'
+}
 
 class PerformancePlotter(object):
     @classmethod
@@ -49,28 +54,102 @@ class PerformancePlotter(object):
     @classmethod
     def plot_loss_multi(cls, dataset):
         # load from file
-        fig = plt.figure()
-        fig.suptitle('Objective function performance: ', fontsize=14, fontweight='bold')
+        fig = plt.figure(figsize=(4,2))
+        #fig.suptitle('Objective function performance: ', fontsize=14, fontweight='bold')
 
         ax = fig.add_subplot(111)
         ax.set_xlabel('Time (s)')
         ax.set_ylabel('Training Loss')
         ax.set_xlim([0,2.5])
+        limited = list(dataset.keys())
+        limited.remove(pretty_print['adam'])
+        limited.remove(pretty_print['ext_grad'])
+
+        for optim in limited:
+            data = dataset[optim]
+            # remove the extra time
+            time_dt = data['time_dt']
+            loss_dt = data['train_loss_dt']
+            time_dt[1:] = np.subtract(time_dt[1:], time_dt[1])
+
+            #time_dt = np.add(time_dt, 1.0)
+
+            #max_time = 5
+            #time_trunc = time_dt[time_dt < max_time]
+            #loss_trunc = loss_dt[0:time_trunc.shape[0]]
+            tau = 1e-5
+            converge_idx = next(i for i, v in enumerate( data['train_loss_dt']) if v < tau)
+            converge_val = data['train_loss_dt'][converge_idx]
+            converge_time = data['time_dt'][converge_idx]
+
+
+            ax.plot(time_dt,loss_dt, linewidth=1.0, label="{0}: {1:.2f}s".format(optim,converge_time ))
+
+
+
+            #ax.annotate('Conv:' + "{0:.1f}s".format(converge_time), xy=(converge_time, converge_val),
+            #            xytext=(0.25, 15))
+
+
+            #ax.set_xlim([0,0.05])
+            #ax.set_ylim([0,15])
+
+            ax.set_xlim([0,2])
+            ax.set_ylim([0,48])
+
+
+
+            fig.subplots_adjust(left = 0.17)
+            fig.subplots_adjust(bottom = 0.27)
+            fig.subplots_adjust(right = 0.96)
+            fig.subplots_adjust(top = 0.94)
+            fig.canvas.draw()
+
+        ax.legend(fontsize=9)
+        fig.savefig('test.png')
+
+    @classmethod
+    def plot_loss_iter_multi(cls, dataset):
+        # load from file
+        fig = plt.figure(figsize=(4,2))
+        #fig.suptitle('Objective function performance: ', fontsize=14, fontweight='bold')
+
+        ax = fig.add_subplot(111)
+        ax.set_xlabel('Iterations')
+        ax.set_ylabel('Training Loss')
+        ax.set_xlim([0,2.5])
         for optim in dataset.keys():
             data = dataset[optim]
             # remove the extra time
-            data['time_dt'][1:] =  data['time_dt'][1:] - data['time_dt'][1]
+            step_dt = data['step_dt']
+            loss_dt = data['train_loss_dt']
+            step_dt[1:] = np.subtract(step_dt[1:], step_dt[1])
 
-            ax.plot(data['time_dt'], data['train_loss_dt'], linewidth=3.0, label=optim)
+            #time_dt = np.add(time_dt, 1.0)
 
-            tau = 0.001
+            #max_time = 5
+            #time_trunc = time_dt[time_dt < max_time]
+            #loss_trunc = loss_dt[0:time_trunc.shape[0]]
+            tau = 1e-10
             converge_idx = next(i for i, v in enumerate( data['train_loss_dt']) if v < tau)
-            converge_time = data['time_dt'][converge_idx]
             converge_val = data['train_loss_dt'][converge_idx]
-            ax.annotate('Conv:' + "{0:.1f}s".format(converge_time), xy=(converge_time, converge_val),
-                        xytext=(converge_time, 15))
+            converge_step = data['step_dt'][converge_idx]
 
-        ax.legend()
+            ax.plot(step_dt,loss_dt, linewidth=1.0, label="{0}: {1:.1f}".format(optim,converge_step ))
+
+            #ax.annotate('Conv:' + "{0:.1f}s".format(converge_time), xy=(converge_time, converge_val),
+            #            xytext=(0.25, 15))
+            ax.set_xlim([0,5000])
+
+            fig.subplots_adjust(left = 0.17)
+            fig.subplots_adjust(bottom = 0.27)
+            fig.subplots_adjust(right = 0.96)
+            fig.subplots_adjust(top = 0.94)
+            fig.canvas.draw()
+
+        ax.legend(fontsize=9)
+
+
         #datasets
 
         #             arrowprops=dict(facecolor='black', shrink=0.05))
@@ -115,4 +194,4 @@ class PerformancePlotter(object):
         plt.show()
 
 
-PerformancePlotter.plot_accuracy()
+#PerformancePlotter.plot_accuracy()
