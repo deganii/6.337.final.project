@@ -16,13 +16,13 @@ error = (tf.matmul(x, W) - b)
 loss = tf.reduce_mean(tf.reduce_sum(tf.square(error)))
 
 # Gradient Descent
-optim = 'ext_grad'
+#optim = 'ext_grad'
 # BFGS
 #optim = 'ext_bfgs'
 #optim = 'ext_newton'
 
 #optim = 'ext_d_simplex'
-#optim = 'adam'
+optim = 'adam'
 learning_rate = 0.001
 ext_grad_learning_rate = 0.01
 adam_learning_rate = 0.001
@@ -48,6 +48,7 @@ i = 0
 idx = 0
 step_dt =[0]
 train_loss_dt = []
+acc_dt = []
 
 test_loss = 0.0
 start_time = time.time()
@@ -57,13 +58,15 @@ time_dt = [0]
 with tf.Session() as session:
     session.run(init)
 
+    train_loss_dt.append(session.run(loss))
+
     if (optim == 'adam'):
-        train_loss_dt.append(session.run(loss))
         while(i < trainingIter):
             session.run(optimizer)
             i = i+1
             if (i % 1 == 0):
-                train_loss_dt.append(session.run(loss))
+                loss_res = session.run(loss)
+                train_loss_dt.append(loss_res)
                 step_dt.append(i)
                 elapsed_time = time.time() - start_time
                 time_dt.append(elapsed_time)
@@ -74,10 +77,11 @@ with tf.Session() as session:
         #for  i in range(10000):
         #    session.run(optimizer)
         #feed_dict = {input: np.}
-        train_loss_dt.append(session.run(loss))
+
         for i in range(1000):
             optimizer.minimize(session)
-            train_loss_dt.append(session.run(loss))
+            loss_res = session.run(loss)
+            train_loss_dt.append(loss_res)
             step_dt.append(i)
             elapsed_time = time.time() - start_time
             time_dt.append(elapsed_time)
@@ -88,7 +92,10 @@ with tf.Session() as session:
             #print(errorVal)
 
 np.savez('performance_data/toy/' + optim, step_dt=step_dt, train_loss_dt=train_loss_dt, time_dt=time_dt)
+header = 'step_dt,time_dt,train_loss_dt'
 
+stacked = np.stack((step_dt,time_dt,train_loss_dt))
+np.savetxt('performance_data/toy/{0}.txt'.format(optim),np.transpose(stacked), header=header, fmt='%10.15f')
 
 # plot and show
 #from plotting import PerformancePlotter

@@ -164,7 +164,7 @@ with tf.Session() as sess:
     sess.run([x_var.initializer, y_var.initializer], feed_dict={x: mnist.test.images[:batch_size], y: mnist.test.labels[:batch_size]})
 
     print("Test Accuracy:", accuracy.eval({x: mnist.test.images[:batch_size], y: mnist.test.labels[:batch_size]}))
-
-
+    stacked = np.stack(step_dt, train_loss_dt, time_dt, test_accuracy_dt, train_accuracy_dt)
+    np.savetxt('performance_data/mnist/{0}.txt'.format(optim),np.transpose(stacked), header=header, fmt='%10.15f')
     np.savez('performance_data/mnist/' + optim, step_dt=step_dt, train_loss_dt=train_loss_dt, time_dt=time_dt, test_accuracy_dt=test_accuracy_dt, train_accuracy_dt=train_accuracy_dt)
 

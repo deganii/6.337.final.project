@@ -3,7 +3,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 import os.path
 import time
-import tensorflow as tf
 
 
 class PerformancePlotter(object):
@@ -59,7 +58,11 @@ class PerformancePlotter(object):
         ax.set_xlim([0,2.5])
         for optim in dataset.keys():
             data = dataset[optim]
+            # remove the extra time
+            data['time_dt'][1:] =  data['time_dt'][1:] - data['time_dt'][1]
+
             ax.plot(data['time_dt'], data['train_loss_dt'], linewidth=3.0, label=optim)
+
             tau = 0.001
             converge_idx = next(i for i, v in enumerate( data['train_loss_dt']) if v < tau)
             converge_time = data['time_dt'][converge_idx]
@@ -111,3 +114,5 @@ class PerformancePlotter(object):
         #             arrowprops=dict(facecolor='black', shrink=0.05))
         plt.show()
 
+
+PerformancePlotter.plot_accuracy()
