@@ -109,30 +109,40 @@ When the objective function is quadratic and of the form $f(w) = \frac{1}{2}w^T 
 \item return $w^{(k)}$
 \end{enumerate}
 
-\section{Benchmark problem description}
+
+\section{Benchmark problem: MNIST}
+
 Describe your benchmark problems here. Describe the inputs and outputs of the problems such that the reader outside your �field can understand their meanings. If there are numerical challenges associated with these problems, describe them.
 
-There are many traditional ML problems that have been used to test the algorithms on. Modified National institute of standards and technology (MNIST) is one such data set. This is the defacto "hello world" data set for machine learning problems. Since its release in 1999, this classic dataset of handwritten images has served as the basis for benchmarking classification algorithms. As new machine learning techniques emerge, this data set remains a classic dataset to test the techniques on. 
+There are many traditional ML problems that have been used to evaluate numerical optimizers such as gradient descent and BFGS. The Modified National Institute of Standards and Technology (MNIST) handwritten image database is on such example. It is the is the defacto "hello world" data set in the field of machine learning. Since its release in 1999, this dataset has served as the basis for benchmarking classification algorithms. As new machine learning techniques emerge, this data set remains a classic benchmark to test the techniques on. 
 
-The dataset consists of 60,000 training and 10,000 test examples of handwritten digits from 0-9. Various preprocessing is performed on the data to increase contrast and reduce noise. Additional  preconditioning involves down-sampling to a pixel size of 28*28 to reduce the dimensionality of the problem. Fig 2 illustrates a sample of the dataset:
+The dataset consists of 60,000 training and 10,000 test examples of handwritten digits from 0-9. Various preprocessing is performed on the raw data to increase contrast and reduce noise. Additional  preconditioning involves down-sampling to a pixel size of 28*28 to reduce the dimensionality of the problem. Fig 2 illustrates a sample of the numeric characters in the dataset after preconditioning.
 
 \begin{figure}
 \includegraphics[width=3.2in]{./mnist.png}
 \caption{MNIST Dataset}
 \end{figure}
 
- and the problem here is to ask the machine to classify them from 0-9. Typically Neural nets are used to solve this classification problem. As mentioned in the beginning, Neural nets involve an optimization problem that needs to decide the best weights to use in the neural nets. In order to make the data set more manageable for optimization, some preconditioning was done to make the data set suitable for the algorithm to take as input. Some of the preconditioning involves increasing the contrast in the images and  the data set is also down sampled to a 28*28 to reduce the dimensionality of the problem.
 
 
-
-The input data is reshaped into a single vector of pixel values. This representation is convenient as it allows the dataset.
-
-
+The central problem is to classify each image as a digit between 0-9. Typically, convolutional and recurrent neural nets are most effiective in producing models that perform with a high degree of accuracy. As mentioned earlier, neural nets at their core are optimizers that determine the best weights to use when performing  linear and nonlinear transformations on data. Simpler methods include logistic regression, which essentially reframe the task as a single least squares minimization problem. An element of the MNIST dataset si shown in Fig. \ref{mnist-reshape} undergoing the reshaping or "flattening" operation to covert it into a vector of pixel values for input to a logistic regression optimizer. 
 
 \begin{figure}
 \includegraphics[width=3.2in]{./mnist-reshape.png}
+\label{mnist-reshape}
 \caption{Reshaping input character matrix}
 \end{figure}
+
+
+This vectorized representation is very convenient as an input to a weight matrix A, which if properly contructed, can output a set of vectors b representing the 
+
+
+In order to make the data set more manageable for optimization, preconditioning was performed to make the data set suitable for the algorithm to take as input. Some of the preconditioning involves increasing the contrast in the images and  the data set is also down sampled to a 28*28 to reduce the dimensionality of the problem. 
+
+
+
+
+
 
 
 \begin{figure}
