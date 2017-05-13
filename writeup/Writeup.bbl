@@ -1,0 +1,25 @@
+\begin{thebibliography}{1}
+
+\bibitem{bonnans2006numerical}
+J.-F. Bonnans, J.~C. Gilbert, C.~Lemar{\'e}chal, and C.~A. Sagastiz{\'a}bal.
+\newblock {\em Numerical optimization: theoretical and practical aspects}.
+\newblock Springer Science \& Business Media, 2006.
+
+\bibitem{kingma2014adam}
+D.~Kingma and J.~Ba.
+\newblock Adam: A method for stochastic optimization.
+\newblock {\em arXiv preprint arXiv:1412.6980}, 2014.
+
+\bibitem{munoz2014machine}
+A.~Munoz.
+\newblock Machine learning and optimization.
+\newblock {\em URL: https://www. cims. nyu. edu/\~{}
+  munoz/files/ml\_optimization. pdf [accessed 2016-03-02][WebCite Cache ID
+  6fiLfZvnG]}, 2014.
+
+\bibitem{petrova1997origin}
+S.~S. Petrova and A.~D. Solov'ev.
+\newblock The origin of the method of steepest descent.
+\newblock {\em Historia Mathematica}, 24(4):361--375, 1997.
+
+\end{thebibliography}

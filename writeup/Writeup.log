@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.10.3)  12 MAY 2017 18:41
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.10.3)  13 MAY 2017 18:08
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -335,7 +335,7 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 23.
 
-<plot1-GradDescent.png, id=88, 512.91624pt x 385.44pt>
+<plot1-GradDescent.png, id=73, 512.91624pt x 385.44pt>
 File: plot1-GradDescent.png Graphic file (type png)
 
 <use plot1-GradDescent.png>
@@ -363,67 +363,125 @@ Underfull \hbox (badness 10000) in paragraph at lines 48--52
 
  []
 
-
+[2]
 Underfull \hbox (badness 10000) in paragraph at lines 92--94
 
  []
 
-[2]
-Underfull \hbox (badness 1184) in paragraph at lines 106--107
+
+Underfull \hbox (badness 1540) in paragraph at lines 106--107
 []$\OML/cmm/m/it/10 H[] \OT1/cmr/m/n/10 = (\OML/cmm/m/it/10 I \OMS/cmsy/m/n/10 
 ^^@ \OML/cmm/m/it/10 ^^Z[]s[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 y[]\OT1/cmr/m/n/
-10 )[])\OML/cmm/m/it/10 H[]k\OT1/cmr/m/n/10 )(\OML/cmm/m/it/10 I \OMS/cmsy/m/n/
-10 ^^@
+10 )[])\OML/cmm/m/it/10 H[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 I \OMS/cmsy/m/n/10
+ ^^@
  []
 
-Missing character: There is no ù in font ptmr7t!
+<./mnist.png, id=121, 540.51938pt x 262.73157pt>
+File: ./mnist.png Graphic file (type png)
+ <use ./mnist.png>
+Package pdftex.def Info: ./mnist.png used on input line 161.
+(pdftex.def)             Requested size: 231.26378pt x 112.4111pt.
 
-Underfull \hbox (badness 2050) in paragraph at lines 130--131
+<./mnist-reshape.png, id=122, 169.8345pt x 129.3633pt>
+File: ./mnist-reshape.png Graphic file (type png)
+
+<use ./mnist-reshape.png>
+Package pdftex.def Info: ./mnist-reshape.png used on input line 170.
+(pdftex.def)             Requested size: 231.26378pt x 176.15872pt.
+
+<./mnist-logistic.png, id=123, 105.5142pt x 89.133pt>
+File: ./mnist-logistic.png Graphic file (type png)
+
+<use ./mnist-logistic.png>
+Package pdftex.def Info: ./mnist-logistic.png used on input line 176.
+(pdftex.def)             Requested size: 231.26378pt x 195.38458pt.
+ [3 <./mnist.png>]
+Underfull \hbox (badness 2050) in paragraph at lines 192--193
 []\OT1/ptm/m/n/10 Some of the per-for-mance char-ac-ter-is-tics that were
  []
 
-Missing character: There is no ö in font ptmr7t!
 
-Underfull \vbox (badness 1406) has occurred while \output is active []
+Underfull \hbox (badness 5050) in paragraph at lines 196--196
+[]\elvbf Performance char-ac-ter-is-tics on ex-am-ple
+ []
 
- [3]
-No file Writeup.bbl.
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 176.
-[4
+<./ToyLossBFGS.png, id=146, 289.08pt x 144.54pt>
+File: ./ToyLossBFGS.png Graphic file (type png)
+ <use ./ToyLossBFGS.png>
+Package pdftex.def Info: ./ToyLossBFGS.png used on input line 213.
+(pdftex.def)             Requested size: 231.26378pt x 115.63214pt.
 
-]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 176.
+<./ToyLoss.png, id=147, 289.08pt x 144.54pt>
+File: ./ToyLoss.png Graphic file (type png)
+ <use ./ToyLoss.png>
+Package pdftex.def Info: ./ToyLoss.png used on input line 219.
+(pdftex.def)             Requested size: 231.26378pt x 115.63214pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [4 <./mnist-reshape.png> <./mnist-logistic.png>]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+(./Writeup.bbl
+Underfull \hbox (badness 7613) in paragraph at lines 14--19
+[]\OT1/ptm/m/n/10 A. Munoz.  Ma-chine learn-ing and op-ti-miza-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 14--19
+\OT1/ptm/m/n/10 tion.  \OT1/ptm/m/it/10 URL: https://www. cims. nyu. edu/~
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 14--19
+\OT1/ptm/m/it/10 munoz/files/ml[]optimization. pdf [ac-cessed 2016-
+ []
+
+)
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 251.
+ [5 <./ToyLossBFGS.png> <./ToyLoss.png>]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 251.
  (./Writeup.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 176.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 176.
-Package rerunfilecheck Info: File `Writeup.out' has not changed.
-(rerunfilecheck)             Checksum: 24B57B1B27DCF96557B9E900DEB1BF17;1685.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 176.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 251.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 251.
+
+
+Package rerunfilecheck Warning: File `Writeup.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `Writeup.out':
+(rerunfilecheck)             Before: E9ABC62E233C92A5C6108C101B87B3B5;1260
+(rerunfilecheck)             After:  DD9BA6F28F2ADBB370BD2E089CC6A132;1894.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 251.
  ) 
 Here is how much of TeX's memory you used:
- 6369 strings out of 493014
- 92383 string characters out of 6133351
- 186585 words of memory out of 5000000
- 9779 multiletter control sequences out of 15000+600000
- 22528 words of font info for 56 fonts, out of 8000000 for 9000
+ 6415 strings out of 493014
+ 93081 string characters out of 6133351
+ 190740 words of memory out of 5000000
+ 9804 multiletter control sequences out of 15000+600000
+ 23625 words of font info for 57 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 29i,7n,28p,768b,567s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 29i,7n,28p,1123b,320s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2016/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
-exlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/te
-xlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/local/texl
-ive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texliv
-e/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/
-2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local/texlive/201
-6/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2016/t
-exmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2016/te
-xmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2016/texm
-f-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2016/texmf-dist/fon
-ts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/u
-rw/times/utmri8a.pfb>
-Output written on Writeup.pdf (4 pages, 154432 bytes).
+exlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/te
+xlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/tex
+live/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/local/texli
+ve/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive
+/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2
+016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local/texlive/2016
+/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2016/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2016/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2016/texmf
+-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/local/texlive/2016/texmf-dist/f
+onts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1
+/urw/times/utmr8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/urw/times
+/utmri8a.pfb>
+Output written on Writeup.pdf (5 pages, 411594 bytes).
 PDF statistics:
- 202 PDF objects out of 1000 (max. 8388607)
- 181 compressed objects within 2 object streams
- 57 named destinations out of 1000 (max. 500000)
- 174 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 229 PDF objects out of 1000 (max. 8388607)
+ 197 compressed objects within 2 object streams
+ 70 named destinations out of 1000 (max. 500000)
+ 167 words of extra memory for PDF output out of 10000 (max. 10000000)
 
