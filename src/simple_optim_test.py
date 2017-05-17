@@ -33,12 +33,12 @@ if(optim == 'ext_grad'):
 elif(optim == 'ext_bfgs'):
     optimizer = ExternalBFGSOptimizer(loss)
     optimizer.initialized = False
-elif(optim == 'ext_newton'):
-    # for this problem, the weight matrix W *is* the jacobian at all values
-    optimizer = ExternalNewtonOptimizer(error, W)
-elif(optim == 'ext_d_simplex'):
-    # for this problem, the weight matrix W *is* the jacobian at all values
-    optimizer = ExternalDownhillSimplexOptimizer(loss)
+# #elif(optim == 'ext_newton'):
+#     # for this problem, the weight matrix W *is* the jacobian at all values
+#     optimizer = ExternalNewtonOptimizer(error, W)
+# elif(optim == 'ext_d_simplex'):
+#     # for this problem, the weight matrix W *is* the jacobian at all values
+#     optimizer = ExternalDownhillSimplexOptimizer(loss)
 elif(optim == 'adam'):
     optimizer = tf.train.AdamOptimizer(learning_rate= adam_learning_rate).minimize(loss)
 
@@ -70,8 +70,10 @@ with tf.Session() as session:
                 step_dt.append(i)
                 elapsed_time = time.time() - start_time
                 time_dt.append(elapsed_time)
-                #finalX = session.run(x)
-                #print(finalX)
+                finalX = session.run(x)
+                print(finalX)
+                if loss_res < 1e-12:
+                    break
 
     else:
         #for  i in range(10000):
@@ -87,15 +89,17 @@ with tf.Session() as session:
             time_dt.append(elapsed_time)
 
             #errorVal = session.run(error)
-            #finalX = session.run(x)
-            #print(finalX)
+            finalX = session.run(x)
+            print(finalX)
             #print(errorVal)
+            if loss_res < 1e-12:
+                break
 
-np.savez('performance_data/toy/' + optim, step_dt=step_dt, train_loss_dt=train_loss_dt, time_dt=time_dt)
-header = 'step_dt,time_dt,train_loss_dt'
+#np.savez('performance_data/toy/' + optim, step_dt=step_dt, train_loss_dt=train_loss_dt, time_dt=time_dt)
+#header = 'step_dt,time_dt,train_loss_dt'
 
-stacked = np.stack((step_dt,time_dt,train_loss_dt))
-np.savetxt('performance_data/toy/{0}.txt'.format(optim),np.transpose(stacked), header=header, fmt='%10.15f')
+#stacked = np.stack((step_dt,time_dt,train_loss_dt))
+#np.savetxt('performance_data/toy/{0}.txt'.format(optim),np.transpose(stacked), header=header, fmt='%10.15f')
 
 # plot and show
 #from plotting import PerformancePlotter
