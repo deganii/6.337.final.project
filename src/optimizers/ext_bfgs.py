@@ -18,12 +18,12 @@ class ExternalBFGSOptimizer(SplitExternalOptimizerInterface):
         self.H = 1.0 * np.eye(N)
         self.alpha = 1
 
-    # the method BFGS performs a *single* iteration of the BFGS method, and is called
-    # repeatedly by tensorflow.
-    def BFGS(self, f, f_prime, w, eps=10e-8, tau=10e-6, sigma=10 ** -1, beta=10):
+    ''' the below method BFGS performs a *single* iteration of the BFGS method, and is called
+         repeatedly by tensorflow.
+    '''
+    def BFGS(self, f, f_prime, w):
         if not self.initialized:
             self._initialize(w)
-
         fp_w = f_prime(w)
         dw = -np.dot(self.H, fp_w)
         alpha = self.line_search(f, fp_w, w, dw)
@@ -40,7 +40,9 @@ class ExternalBFGSOptimizer(SplitExternalOptimizerInterface):
             self.H += term1 - term2
         return w
 
-
+    '''The "minimize" function is a standard interface required by tensorflow
+       which we implement in order to call our custom BFGS optmimizer
+    '''
     def _minimize(self, initial_val, loss_func, grad_func, equality_funcs,
                 equality_grad_funcs, inequality_funcs, inequality_grad_funcs,
                 step_callback, optimizer_kwargs):
@@ -55,7 +57,12 @@ class ExternalBFGSOptimizer(SplitExternalOptimizerInterface):
         #self.x_last = initial_val
         return new_x
 
-    def line_search(self, f, fp_w, w, s, sigma=10 ** -1, beta=10, tau=0.00001):
+    # Backtracking Line search
+    # https://en.wikipedia.org/wiki/Backtracking_line_search
+    def line_search(self, f, fp_w, w, s):
+        tau = 0.00001
+        sigma = 10 ** -1
+
         def Q(alpha):
             if abs(alpha) < tau:
                 return 1
@@ -65,7 +72,7 @@ class ExternalBFGSOptimizer(SplitExternalOptimizerInterface):
             alpha = alpha * 2
         while Q(alpha) < sigma:
             alpha_p = alpha / (2.0 * (1 - Q(alpha)))
-            alpha = max(1.0 / beta * alpha, alpha_p)
+            alpha = max(1.0 / 10 * alpha, alpha_p)
         return alpha
 
 
