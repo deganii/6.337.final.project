@@ -1,11 +1,3 @@
-'''
-A logistic regression learning algorithm example using TensorFlow library.
-This example is using the MNIST database of handwritten digits
-(http://yann.lecun.com/exdb/mnist/)
-Author: Aymeric Damien
-Project: https://github.com/aymericdamien/TensorFlow-Examples/
-'''
-
 from __future__ import print_function
 
 import numpy as np
@@ -63,16 +55,15 @@ cost = tf.reduce_mean(-tf.reduce_sum(y_var*tf.log(pred), reduction_indices=1))
 if(optim == 'ext_grad'):
     optimizer = ExternalPythonGradientDescentOptimizer(cost)
     optimizer.learning_rate = ext_grad_learning_rate
-elif (optim == 'scipy'):
-    optimizer = ScipyOptimizerInterface(cost)
 elif(optim == 'ext_bfgs'):
     optimizer = ExternalBFGSOptimizer(cost)
     optimizer.initialized = False
-elif(optim == 'ext_newton'):
-    optimizer = ExternalNewtonOptimizer(error, W)
 elif(optim == 'adam'):
     optimizer = tf.train.AdamOptimizer(learning_rate= adam_learning_rate).minimize(cost)
-
+#elif (optim == 'scipy'):
+#    optimizer = ScipyOptimizerInterface(cost)
+#elif(optim == 'ext_newton'):
+#    optimizer = ExternalNewtonOptimizer(error, W)
 
 # Test model
 correct_prediction = tf.equal(tf.argmax(pred, 1), tf.argmax(y, 1))
@@ -84,7 +75,6 @@ init = tf.global_variables_initializer()
 
 train_loss_dt = []
 step_dt =[0]
-train_loss_dt = []
 train_accuracy_dt = []
 test_accuracy_dt = []
 
@@ -220,14 +210,14 @@ with tf.Session() as sess:
                 test_acc =accuracy.eval({x: mnist.test.images[:batch_size], y: mnist.test.labels[:batch_size]})
                 test_accuracy_dt.append(test_acc)
                 print("Test Accuracy:", test_acc)
-                saveOutputData(sess)
+                #saveOutputData(sess)
 
                 sess.run([x_var.initializer, y_var.initializer],
                          feed_dict={x: mnist.test.images[:batch_size], y: mnist.test.labels[:batch_size]})
                 test_preds = pred.eval({x: mnist.test.images[:batch_size], y: mnist.test.labels[:batch_size]})
 
 
-                saveMNISTImagesAndPredictions(i, mnist.test.images, mnist.test.labels, test_preds)
+                #saveMNISTImagesAndPredictions(i, mnist.test.images, mnist.test.labels, test_preds)
 
         # Display logs per epoch step
         if (epoch+1) % display_step == 0:
@@ -246,5 +236,5 @@ with tf.Session() as sess:
 
 
     print("Optimization Finished!")
-    saveOutputData(sess)
+    #saveOutputData(sess)
 
