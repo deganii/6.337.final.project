@@ -1,1 +1,1 @@
-from plotting.convergence import PerformancePlotter
+from plotting.performance_plotter import PerformancePlotter
