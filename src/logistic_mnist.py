@@ -1,3 +1,7 @@
+''' Originally adapted from logistic regression example by Aymeric Damien
+Project: https://github.com/aymericdamien/TensorFlow-Examples/
+'''
+
 from __future__ import print_function
 
 import numpy as np
@@ -5,6 +9,8 @@ import time
 
 import tensorflow as tf
 from optimizers import *
+
+import sys
 
 # Import MNIST data
 from tensorflow.examples.tutorials.mnist import input_data
@@ -32,6 +38,10 @@ display_step = 1
 optim = 'ext_bfgs'
 #optim = 'ext_newton'
 #optim = 'adam'
+
+if len(sys.argv) > 1:
+    optim = sys.argv[1]
+
 
 # tf Graph Input
 x = tf.placeholder(tf.float32, [batch_size, 784]) # mnist data image of shape 28*28=784

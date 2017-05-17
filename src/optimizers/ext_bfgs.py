@@ -65,14 +65,14 @@ class ExternalBFGSOptimizer(SplitExternalOptimizerInterface):
         return (f(w + alpha * s) - f(w)) / (alpha * np.dot(fp_w, s))
 
 
-    # Backtracking Line search
-    # https://en.wikipedia.org/wiki/Backtracking_line_search
+    # Line search
+    # https://en.wikipedia.org/wiki/Line_search
     def line_search(self, f, fp_w, w, s):
-        sigma = 10 ** -1
+        c = 10 ** -1
         alpha = 1.
-        while self.Q(alpha, f, fp_w, w, s) >= sigma:
+        while self.Q(alpha, f, fp_w, w, s) >= c:
             alpha = alpha * 2
-        while self.Q(alpha, f, fp_w, w, s) < sigma:
+        while self.Q(alpha, f, fp_w, w, s) < c:
             alpha_p = alpha / (2.0 * (1 - self.Q(alpha, f, fp_w, w, s)))
             alpha = max(1.0 / 10 * alpha, alpha_p)
         return alpha

@@ -14,6 +14,8 @@ error = (tf.matmul(x, W) - b)
 
 # Minimize error using cross entropy
 loss = tf.reduce_mean(tf.reduce_sum(tf.square(error)))
+import sys
+
 
 # Gradient Descent
 #optim = 'ext_grad'
@@ -23,6 +25,12 @@ optim = 'ext_bfgs'
 
 #optim = 'ext_d_simplex'
 # optim = 'adam'
+
+if len(sys.argv) > 1:
+    optim = sys.argv[1]
+
+
+
 learning_rate = 0.001
 ext_grad_learning_rate = 0.001
 adam_learning_rate = 0.001
