@@ -18,11 +18,11 @@ loss = tf.reduce_mean(tf.reduce_sum(tf.square(error)))
 # Gradient Descent
 #optim = 'ext_grad'
 # BFGS
-#optim = 'ext_bfgs'
+optim = 'ext_bfgs'
 #optim = 'ext_newton'
 
 #optim = 'ext_d_simplex'
-optim = 'adam'
+# optim = 'adam'
 learning_rate = 0.001
 ext_grad_learning_rate = 0.001
 adam_learning_rate = 0.001

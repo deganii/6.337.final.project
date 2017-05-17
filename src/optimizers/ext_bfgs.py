@@ -1,16 +1,8 @@
-from tensorflow.contrib.opt import ExternalOptimizerInterface
-from tensorflow.python.platform import tf_logging as logging
-from tensorflow.python.ops import gradients
-from tensorflow.python.ops import array_ops
-
-#from numpy import *
-#from math import *
-#from numpy.linalg import *
 import numpy as np
 
 from optimizers import SplitExternalOptimizerInterface
 
-""" Another attempt at external BFGS optimizer using contrib interface"""
+""" An attempt at external BFGS optimizer using tensorflow contrib interface"""
 class ExternalBFGSOptimizer(SplitExternalOptimizerInterface):
 
     @property
@@ -26,7 +18,8 @@ class ExternalBFGSOptimizer(SplitExternalOptimizerInterface):
         self.H = 1.0 * np.eye(N)
         self.alpha = 1
 
-
+    # the method BFGS performs a *single* iteration of the BFGS method, and is called
+    # repeatedly by tensorflow.
     def BFGS(self, f, f_prime, w, eps=10e-8, tau=10e-6, sigma=10 ** -1, beta=10):
         if not self.initialized:
             self._initialize(w)
@@ -62,19 +55,17 @@ class ExternalBFGSOptimizer(SplitExternalOptimizerInterface):
         #self.x_last = initial_val
         return new_x
 
-    def line_search(self, f, fp_x, x, s, sigma=10 ** -1, beta=10, convergval=0.00001):
-        def QFind(alpha):
-            if abs(alpha) < convergval:
+    def line_search(self, f, fp_w, w, s, sigma=10 ** -1, beta=10, tau=0.00001):
+        def Q(alpha):
+            if abs(alpha) < tau:
                 return 1
-            return (f(x + alpha * s) - f(x)) / (alpha * np.dot(fp_x, s))
+            return (f(w + alpha * s) - f(w)) / (alpha * np.dot(fp_w, s))
         alpha = 1.
-        # Double alpha until big enough
-        while QFind(alpha) >= sigma:
+        while Q(alpha) >= sigma:
             alpha = alpha * 2
-
-        while QFind(alpha) < sigma:
-            alphap = alpha / (2.0 * (1 - QFind(alpha)))
-            alpha = max(1.0 / beta * alpha, alphap)
+        while Q(alpha) < sigma:
+            alpha_p = alpha / (2.0 * (1 - Q(alpha)))
+            alpha = max(1.0 / beta * alpha, alpha_p)
         return alpha
 
 
