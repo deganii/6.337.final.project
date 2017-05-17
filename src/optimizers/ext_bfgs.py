@@ -26,35 +26,6 @@ class ExternalBFGSOptimizer(SplitExternalOptimizerInterface):
         self.H = 1.0 * np.eye(N)
         self.alpha = 1
 
-    def _minimize(self, initial_val, loss_func, grad_func, equality_funcs,
-                equality_grad_funcs, inequality_funcs, inequality_grad_funcs,
-                step_callback, optimizer_kwargs):
-
-        def unwrap_loss(x):
-            return loss_func(x)[0]
-
-        def unwrap_grad(x):
-            return grad_func(x)[0]
-
-        new_x = self.BFGS(unwrap_loss, unwrap_grad, initial_val)
-        #self.x_last = initial_val
-        return new_x
-
-    def line_search(self, f, fp_x, x, s, sigma=10 ** -1, beta=10, tau=0.00001):
-        def QFind(alpha):
-            if abs(alpha) < tau:
-                return 1
-            return (f(x + alpha * s) - f(x)) / (alpha * np.dot(fp_x, s))
-        alpha = 1.
-        # Double alpha until big enough
-        while QFind(alpha) >= sigma:
-            alpha = alpha * 2
-
-        while QFind(alpha) < sigma:
-            alphap = alpha / (2.0 * (1 - QFind(alpha)))
-            alpha = max(1.0 / beta * alpha, alphap)
-        return alpha
-
 
     def BFGS(self, f, f_prime, w, eps=10e-8, tau=10e-6, sigma=10 ** -1, beta=10):
         if not self.initialized:
@@ -75,3 +46,35 @@ class ExternalBFGSOptimizer(SplitExternalOptimizerInterface):
             term2 = (np.outer(Hy, dw) + np.outer(dw, Hy)) / sy
             self.H += term1 - term2
         return w
+
+
+    def _minimize(self, initial_val, loss_func, grad_func, equality_funcs,
+                equality_grad_funcs, inequality_funcs, inequality_grad_funcs,
+                step_callback, optimizer_kwargs):
+
+        def unwrap_loss(x):
+            return loss_func(x)[0]
+
+        def unwrap_grad(x):
+            return grad_func(x)[0]
+
+        new_x = self.BFGS(unwrap_loss, unwrap_grad, initial_val)
+        #self.x_last = initial_val
+        return new_x
+
+    def line_search(self, f, fp_x, x, s, sigma=10 ** -1, beta=10, convergval=0.00001):
+        def QFind(alpha):
+            if abs(alpha) < convergval:
+                return 1
+            return (f(x + alpha * s) - f(x)) / (alpha * np.dot(fp_x, s))
+        alpha = 1.
+        # Double alpha until big enough
+        while QFind(alpha) >= sigma:
+            alpha = alpha * 2
+
+        while QFind(alpha) < sigma:
+            alphap = alpha / (2.0 * (1 - QFind(alpha)))
+            alpha = max(1.0 / beta * alpha, alphap)
+        return alpha
+
+
